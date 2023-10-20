@@ -1,0 +1,7 @@
+{
+    "python": "binaries/python/python.exe",
+    "lua": {
+        "win64": "binaries/lua/win64/lua54.exe",
+        "linux": "binaries/lua/linux/lua54"
+    }
+}
