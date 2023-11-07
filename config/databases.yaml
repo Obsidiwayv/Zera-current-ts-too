@@ -1,0 +1,10 @@
+database:
+  panel: n1.proxied.host
+  redis:
+    port: 25575
+    password: Z3RA
+  mysql:
+    dbname: s133_ZeraDB
+    username: u133_QMxuhnyPYY
+    password: gYAVB6iAqL8okXiZS@O4lMTH
+    endpoint: n3.proxied.host:3306@c

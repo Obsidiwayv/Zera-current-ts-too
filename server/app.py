@@ -1,1 +1,0 @@
-input("press the enter key to terminate")

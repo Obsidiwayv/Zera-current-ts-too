@@ -1,4 +1,6 @@
 {
     "dev": true,
-    "server": true
+    "staging": true,
+    "prefix": "z?",
+    "python": "binaries/python/python.exe"
 }
