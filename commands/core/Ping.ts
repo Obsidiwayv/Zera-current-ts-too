@@ -1,5 +1,5 @@
 import Dysnomia from "@projectdysnomia/dysnomia";
-import { CommandBuild, CommandDataBuild } from "../builds/CommandBuild";
+import { Colors, CommandBuild, CommandDataBuild } from "../builds/CommandBuild";
 import { ICommandContextData } from "../builds/CommandInterfaces";
 
 export = class PingCommand extends CommandBuild {

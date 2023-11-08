@@ -1,6 +1,6 @@
 import { Client, Constants } from "@projectdysnomia/dysnomia";
-import { db_config, getYamlToken } from "./config/YamlConfig";
-import { CommandBuild } from "./commands/builds/CommandBuild";
+import { db_config, getYamlToken } from "../../config/YamlConfig";
+import { CommandBuild } from "../../commands/builds/CommandBuild";
 
 import Redis from "ioredis";
 

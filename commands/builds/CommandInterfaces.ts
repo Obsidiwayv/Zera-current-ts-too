@@ -1,5 +1,5 @@
 import Dysnomia from "@projectdysnomia/dysnomia";
-import ZeraClient from "../../ZeraClient";
+import ZeraClient from "../../src/clients/ZeraClient";
 
 export interface ICommandData {
     names: string[];
@@ -15,7 +15,7 @@ export interface ICommandContextData {
     args: string[];
 }
 
-export type CommandLevel = "OWNER" | "ADMIN" | "USER";
+export type CommandLevel = "DEVELOPER" | "ADMIN" | "USER";
 
 // Alpha for development, Beta for Production
 export type DevelopmentLevel = "ALPHA" | "BETA";

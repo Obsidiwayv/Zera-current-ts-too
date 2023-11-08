@@ -1,4 +1,4 @@
-import ZeraClient from "../ZeraClient";
+import ZeraClient from "../src/clients/ZeraClient";
 
 export default function(client: ZeraClient) {
     client.redis.set("guilds", client.guilds.size.toString());

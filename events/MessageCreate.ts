@@ -1,5 +1,5 @@
-import { Message } from "@projectdysnomia/dysnomia";
-import ZeraClient from "../ZeraClient";
+import { Member, Message } from "@projectdysnomia/dysnomia";
+import ZeraClient from "../src/clients/ZeraClient";
 import { settings } from "../config/JSONConfig";
 import { ICommandContextData } from "../commands/builds/CommandInterfaces";
 import { CommandWrapper } from "../commands/builds/CommandWrapper";
@@ -21,6 +21,11 @@ export default function(client: ZeraClient, message: Message) {
         if (command) {
             const wrapper = new CommandWrapper(Colors.Periwinkle);
             if (!client.cooldowns.has(`${message.author.id}-${args[0]}`)) {
+                // setting up
+                command.client_user = client.user;
+
+                if (command.meta.for === "DEVELOPER" && !settings.devs.includes(message.author.id)) return;
+                if (command.meta.for === "ADMIN" && !message.member.permissions.has("administrator")) return;
                 command.execute(ctx);
                 command.meta.names.forEach(name => {
                     const format = `${message.author.id}-${name}`;
@@ -28,7 +33,7 @@ export default function(client: ZeraClient, message: Message) {
                     setTimeout(() => {
                         client.cooldowns.delete(format);
                     }, command.meta.cooldown);
-                })
+                }) 
             } else {
                 message.channel.createMessage(wrapper.createEmbed({ 
                     description: "You are on cooldown for this command" 

@@ -1,9 +1,14 @@
+import { ExtendedUser } from "@projectdysnomia/dysnomia";
 import { CommandLevel, DevelopmentLevel, ICommandContextData, ICommandData } from "./CommandInterfaces";
 import { CommandWrapper } from "./CommandWrapper";
+import color_list from "./colors.json";
+import { settings } from "../../config/JSONConfig";
 
 export class CommandBuild {
     public meta: CommandDataBuild;
-    public wrapper = new CommandWrapper(Colors.MistyRose);
+    public client_user: ExtendedUser;
+    public config = settings;
+    public wrapper = new CommandWrapper(color_list["Pastel Orange"]);
     public execute(ctx: ICommandContextData) {}
 }
 
@@ -22,8 +27,4 @@ export class CommandDataBuild implements ICommandData {
     development?: DevelopmentLevel;
 }
 
-export class Colors {
-    public static MistyRose = 0xFFDFD3;
-    public static PastelPink = 0xFC4C4;
-    public static Periwinkle = 0xCBC7DD;
-}
+export const Colors = color_list;

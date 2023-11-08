@@ -1,11 +1,11 @@
-import ZeraClient from "./ZeraClient";
+import ZeraClient from "./src/clients/ZeraClient";
+import MessageCreate from "./events/MessageCreate";
+import Ready from "./events/Ready";
 import { CommandBuild } from "./commands/builds/CommandBuild";
 
 import execute from "exe";
 import os from "os";
 import fs from "fs/promises";
-import MessageCreate from "./events/MessageCreate";
-import Ready from "./events/Ready";
 
 const client = new ZeraClient();
 

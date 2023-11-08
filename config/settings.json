@@ -2,5 +2,13 @@
     "dev": true,
     "staging": true,
     "prefix": "z?",
+    "devs": [
+        "609899399358971924",
+        "738471887902081064"
+    ],
+    "dev_names": {
+        "0": "Obsidiwayv",
+        "1": "Blue Obsidian"
+    },
     "python": "binaries/python/python.exe"
 }
