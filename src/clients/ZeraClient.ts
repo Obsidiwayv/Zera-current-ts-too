@@ -18,7 +18,8 @@ export = class ZeraClient extends Client {
         super(getYamlToken(), {
             gateway: {
                 intents: Constants.Intents.all
-            }
+            },
+            defaultImageSize: Constants.ImageSizeBoundaries.MAXIMUM
         });
     }
 }

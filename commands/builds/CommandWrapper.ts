@@ -2,12 +2,16 @@ import { AdvancedMessageContent, EmbedField, EmbedOptions } from "@projectdysnom
 
 // wrapping embeds 
 export class CommandWrapper {
-    public constructor(public embedColor: string) {}
+    public constructor(public embedColor: string|number) {}
 
     public createEmbeds(embeds: EmbedOptions[]): AdvancedMessageContent {
         embeds.forEach(e => {
             if (!e.color) {
-                e.color = this.formatColorToHex(this.embedColor);
+                if (typeof this.embedColor === "string") {
+                    e.color = this.formatColorToHex(this.embedColor);
+                } else {
+                    e.color = this.embedColor;
+                }
             } 
         });
         return { embeds };

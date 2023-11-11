@@ -1,15 +1,20 @@
-import { ExtendedUser } from "@projectdysnomia/dysnomia";
+import { ExtendedUser, Guild, Message } from "@projectdysnomia/dysnomia";
 import { CommandLevel, DevelopmentLevel, ICommandContextData, ICommandData } from "./CommandInterfaces";
 import { CommandWrapper } from "./CommandWrapper";
 import color_list from "./colors.json";
 import { settings } from "../../config/JSONConfig";
+import CommandResolveBuilder from "./CommandResolveBuilder";
+import ZeraClient from "../../src/clients/ZeraClient";
 
 export class CommandBuild {
     public meta: CommandDataBuild;
     public client_user: ExtendedUser;
+    public resolvers: CommandResolveBuilder;
+    public client: ZeraClient;
+    public guild: Guild;
     public config = settings;
     public wrapper = new CommandWrapper(color_list["Pastel Orange"]);
-    public execute(ctx: ICommandContextData) {}
+    public execute({ message, args }: ICommandContextData): any {}
 }
 
 export class CommandDataBuild implements ICommandData {

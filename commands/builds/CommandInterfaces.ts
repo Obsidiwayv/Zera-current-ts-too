@@ -10,9 +10,8 @@ export interface ICommandData {
 }
 
 export interface ICommandContextData {
-    message: Dysnomia.Message;
-    client: ZeraClient;
     args: string[];
+    message: Dysnomia.Message;
 }
 
 export type CommandLevel = "DEVELOPER" | "ADMIN" | "USER";
