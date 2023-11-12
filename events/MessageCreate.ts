@@ -1,22 +1,33 @@
-import { GuildChannel, Message } from "@projectdysnomia/dysnomia";
+import { Constants, GuildChannel, Message } from "@projectdysnomia/dysnomia";
 import ZeraClient from "../src/clients/ZeraClient";
 import { settings } from "../config/JSONConfig";
 import { ICommandContextData } from "../commands/builds/CommandInterfaces";
 import { CommandWrapper } from "../commands/builds/CommandWrapper";
 import { Colors } from "../commands/builds/CommandBuild";
 import CommandResolveBuilder from "../commands/builds/CommandResolveBuilder";
+import { SQL } from "../database/SQL";
+import { MessageFormatter } from "../src/MessageFormatter";
 
-export default function(client: ZeraClient, message: Message) {
+export default async function(client: ZeraClient, message: Message) {
+    const database = new SQL();
+
     if (message.author.bot) return;
 
-    if (!message.content.startsWith(settings.prefix)) return;
+    if (!(message.channel.type === Constants.ChannelTypes.GUILD_TEXT)) return;
 
-    const args = message.content.slice(settings.prefix.length).trim().split(" ");
+    const guild = (<GuildChannel>message.channel).guild;
+
+    const dbPrefix = await database.prefix.get(guild.id);
+    var prefix = typeof dbPrefix === "object" ? 
+        dbPrefix.setting 
+        : settings.prefix;
+
+    if (!message.content.startsWith(prefix)) return;
+
+    const args = message.content.slice(prefix.length).trim().split(" ");
     const command = client.commands.get(args[0]);
 
-    try {
-        const guild = (<GuildChannel>message.channel).guild;
-
+    try {    
         if (command) {
             const wrapper = new CommandWrapper(Colors.Periwinkle);
             if (!client.cooldowns.has(`${message.author.id}-${args[0]}`)) {
@@ -29,6 +40,12 @@ export default function(client: ZeraClient, message: Message) {
 
                 if (command.meta.for === "DEVELOPER" && !settings.devs.includes(message.author.id)) return;
                 if (command.meta.for === "ADMIN" && !message.member.permissions.has("administrator")) return;
+                if (command.meta.for === "MANAGER" && !message.member.permissions.has("manageGuild")) return;
+                
+                if (command.meta.argumentRequired && !args.slice(1).length) {
+                    return message.channel.createMessage(
+                        MessageFormatter.codeblock(`usage: ${prefix}${args[0]} ${command.meta.usage}`))
+                }
                 command.execute({ 
                     args: args.slice(1),
                     message 

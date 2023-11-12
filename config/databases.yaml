@@ -7,4 +7,5 @@ database:
     dbname: s133_ZeraDB
     username: u133_QMxuhnyPYY
     password: gYAVB6iAqL8okXiZS@O4lMTH
-    endpoint: n3.proxied.host:3306@c
+    endpoint: n3.proxied.host
+    port: 3306

@@ -6,8 +6,9 @@ import { CommandBuild } from "./commands/builds/CommandBuild";
 import execute from "exe";
 import os from "os";
 import fs from "fs/promises";
+import { createTableIfDoesNotExist } from "./database/SQL";
 
-const client = new ZeraClient();
+export const client = new ZeraClient();
 
 // Sorting everything in a class
 export class App {
@@ -24,6 +25,15 @@ export class App {
     public static startEvents() {
         client.on("messageCreate", (message: null) => MessageCreate(client, message));
         client.once("ready", () => Ready(client));
+    }
+
+    public static createTables() {
+        createTableIfDoesNotExist("PREFIX", (t) => {
+            t.increments("id").primary();
+            t.string("setting");
+            t.string("guid");
+            t.string("lastChanged");
+        });
     }
 
     public static async loadCommands() {
@@ -43,5 +53,6 @@ export class App {
 
 App.loadCommands().then(() => null);
 App.startEvents();
+App.createTables();
 
 client.connect();

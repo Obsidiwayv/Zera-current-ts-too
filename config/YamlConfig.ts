@@ -49,6 +49,7 @@ interface DatabaseConfigData {
             username: string;
             password: string;
             endpoint: string;
+            port: number;
         }
     }
 }
