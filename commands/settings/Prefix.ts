@@ -21,5 +21,8 @@ export = class Prefix extends CommandBuild {
             // we parse this later
             lastChanged: Date.now().toString()
         });
+
+        message.channel.createMessage(
+            this.wrapper.createSucessEmbed(`Successfully updated prefix to \`${args[0]}\``));
     }
 }

@@ -8,7 +8,8 @@ import CommandResolveBuilder from "../commands/builds/CommandResolveBuilder";
 import { SQL } from "../database/SQL";
 import { MessageFormatter } from "../src/MessageFormatter";
 
-export default async function(client: ZeraClient, message: Message) {
+
+export default async function (client: ZeraClient, message: Message) {
     const database = new SQL();
 
     if (message.author.bot) return;
@@ -17,51 +18,51 @@ export default async function(client: ZeraClient, message: Message) {
 
     const guild = (<GuildChannel>message.channel).guild;
 
-    const dbPrefix = await database.prefix.get(guild.id);
-    var prefix = typeof dbPrefix === "object" ? 
-        dbPrefix.setting 
-        : settings.prefix;
+    const prefix = await database.prefix.get(guild.id).then(val => {
+        if (!val) return settings.prefix;
+        return val.setting;
+    });
 
     if (!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).trim().split(" ");
     const command = client.commands.get(args[0]);
 
-    try {    
+    try {
         if (command) {
             const wrapper = new CommandWrapper(Colors.Periwinkle);
-            if (!client.cooldowns.has(`${message.author.id}-${args[0]}`)) {
-                // setting up
-                command.client_user = client.user;
-                command.client = client;
-                command.guild = guild;
 
-                command.resolvers = new CommandResolveBuilder(message, guild, args[1]);
-
-                if (command.meta.for === "DEVELOPER" && !settings.devs.includes(message.author.id)) return;
-                if (command.meta.for === "ADMIN" && !message.member.permissions.has("administrator")) return;
-                if (command.meta.for === "MANAGER" && !message.member.permissions.has("manageGuild")) return;
-                
-                if (command.meta.argumentRequired && !args.slice(1).length) {
-                    return message.channel.createMessage(
-                        MessageFormatter.codeblock(`usage: ${prefix}${args[0]} ${command.meta.usage}`))
-                }
-                command.execute({ 
-                    args: args.slice(1),
-                    message 
-                });
-                command.meta.names.forEach(name => {
-                    const format = `${message.author.id}-${name}`;
-                    client.cooldowns.set(format, command.meta.cooldown);
-                    setTimeout(() => {
-                        client.cooldowns.delete(format);
-                    }, command.meta.cooldown);
-                }) 
-            } else {
-                message.channel.createMessage(wrapper.createEmbed({ 
-                    description: "You are on cooldown for this command" 
+            if (client.cooldowns.get(args[0] + message.author.id)) {
+                return message.channel.createMessage(wrapper.createEmbed({
+                    description: "You are on cooldown for this command"
                 }));
             }
+            
+            // setting up
+            command.client_user = client.user;
+            command.client = client;
+            command.guild = guild;
+
+            command.resolvers = new CommandResolveBuilder(message, guild, args[1]);
+
+            if (command.meta.for === "DEVELOPER" && !settings.devs.includes(message.author.id)) return;
+            if (command.meta.for === "ADMIN" && !message.member.permissions.has("administrator")) return;
+            if (command.meta.for === "MANAGER" && !message.member.permissions.has("manageGuild")) return;
+
+            if (command.meta.argumentRequired && !args.slice(1).length) {
+                return message.channel.createMessage(
+                    MessageFormatter.codeblock(`usage: ${prefix}${args[0]} ${command.meta.usage}`))
+            }
+            command.execute({
+                args: args.slice(1),
+                message
+            });
+            command.meta.names.forEach(name => {
+                client.cooldowns.set(name + message.author.id, command.meta.cooldown);
+                setTimeout(() => {
+                    client.cooldowns.delete(name + message.author.id);
+                }, command.meta.cooldown);
+            })
         }
-    } catch (err) {}
+    } catch (err) { }
 }

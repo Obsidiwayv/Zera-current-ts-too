@@ -1,4 +1,6 @@
 import { AdvancedMessageContent, EmbedField, EmbedOptions } from "@projectdysnomia/dysnomia";
+import { Colors } from "./CommandBuild";
+import { getEmote } from "./TextUtils";
 
 // wrapping embeds 
 export class CommandWrapper {
@@ -15,6 +17,15 @@ export class CommandWrapper {
             } 
         });
         return { embeds };
+    }
+
+    public createSucessEmbed(content: string): AdvancedMessageContent {
+        return {
+            embeds: [{
+                color: this.formatColorToHex(Colors["Mint Green"]),
+                description: `${getEmote("check")} ${content}`
+            }]
+        };
     }
 
     public createEmbed(embed: EmbedOptions): AdvancedMessageContent {
