@@ -11,8 +11,4 @@ export default class PrefixTable extends BaseTable<PrefixChangableNullable, Pref
             this.knex.insert({ guid, setting, lastChanged }) :
             this.knex.where({ guid }).first().update({ setting, lastChanged });
     }
-
-    public async get(guid: string) {
-        return await this.pull({ guid }).then((v) => v) || false;
-    }
 }

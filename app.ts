@@ -34,6 +34,12 @@ export class App {
             t.string("guid");
             t.string("lastChanged");
         });
+        createTableIfDoesNotExist("CHANNELS", (t) => {
+            t.increments("id").primary();
+            t.string("guid");
+            t.string("welcome");
+            t.string("leave");
+        });
     }
 
     public static async loadCommands() {

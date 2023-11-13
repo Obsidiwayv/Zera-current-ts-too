@@ -11,6 +11,10 @@ export default class BaseTable<T extends Object, A extends Object> {
         return await this.knex.where(data).first().then(v => v);
     }
 
+    public async get(data: T): Promise<A | false> {
+        return await this.has(data).then(v => v) || false;
+    }
+
     get knex() {
         return client.knex(this.table);
     }

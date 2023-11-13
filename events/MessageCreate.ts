@@ -18,7 +18,7 @@ export default async function (client: ZeraClient, message: Message) {
 
     const guild = (<GuildChannel>message.channel).guild;
 
-    const prefix = await database.prefix.get(guild.id).then(val => {
+    const prefix = await database.prefix.get({ guid: guild.id }).then(val => {
         if (!val) return settings.prefix;
         return val.setting;
     });

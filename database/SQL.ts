@@ -1,6 +1,7 @@
 import { client } from "../app";
 import { Knex } from "knex";
 import PrefixTable from "./tables/PrefixTable";
+import ChannelTable from "./tables/ChannelTable";
 
 // Why is this the biggest function name here
 export function createTableIfDoesNotExist(table: string, callback: (t: Knex.TableBuilder) => any) {
@@ -11,4 +12,5 @@ export function createTableIfDoesNotExist(table: string, callback: (t: Knex.Tabl
 
 export class SQL {
     public prefix = new PrefixTable();
+    public channels = new ChannelTable();
 }
