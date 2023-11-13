@@ -3,7 +3,7 @@ import BaseTable from "./BaseTable";
 
 export default class ChannelTable extends BaseTable<ChannelDataChangableNullable, ChannelData> {
     public constructor() {
-        super("CHANNELS");
+        super("JOINLEAVE_CHANNELS");
     }
 
     public async update(channel: string, channelID: string, guid: string) {

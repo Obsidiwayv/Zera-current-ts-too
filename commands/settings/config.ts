@@ -14,7 +14,7 @@ export = class config extends CommandBuild {
     }
 
     public async execute({ message }: ICommandContextData) {
-        const prefix_config = await this.database.prefix.get(this.guild.id) || {
+        const prefix_config = await this.database.prefix.get({ guid: this.guild.id }) || {
             setting: this.config.prefix,
             lastChanged: undefined
         };
