@@ -13,14 +13,6 @@ export const client = new ZeraClient();
 // Sorting everything in a class
 export class App {
     private static ignored_folders = ["builds"];
-    
-    public static executePython(file: string) {
-        if (os.platform() === "linux") {
-            execute(`python ${file}`);
-        } else if (os.platform() === "win32") {
-            execute(`start bin/python/python.exe ${file}`);
-        }
-    }
 
     public static startEvents() {
         client.on("messageCreate", (message: null) => MessageCreate(client, message));
