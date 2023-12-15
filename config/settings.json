@@ -2,17 +2,14 @@
     "dev": true,
     "staging": true,
     "prefix": "z?",
-    "devs": [
-        "609899399358971924",
-        "738471887902081064"
-    ],
+    "devs": [],
     "dev_names": {
         "0": "Obsidiwayv",
         "1": "Blue Obsidian"
     },
     "emotes": {
-       "check": "check:1172494422089416704",
-       "x": "x_:1172494448307998740" 
+       "check": "",
+       "x": "" 
     },
     "python": "binaries/python/python.exe"
 }
